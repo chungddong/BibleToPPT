@@ -442,7 +442,7 @@ namespace BibleToPPT
             // 프레젠테이션 파일 생성
             Presentation pptPresentation = pptApplication.Presentations.Add(MsoTriState.msoTrue);
 
-            Microsoft.Office.Interop.PowerPoint.CustomLayout customLayout = pptPresentation.SlideMaster.CustomLayouts[Microsoft.Office.Interop.PowerPoint.PpSlideLayout.ppLayoutText];
+            Microsoft.Office.Interop.PowerPoint.CustomLayout customLayout = pptPresentation.SlideMaster.CustomLayouts[Microsoft.Office.Interop.PowerPoint.PpSlideLayout.ppLayoutChartAndText];
 
             // Create new Slide
             /*slides = pptPresentation.Slides;
@@ -454,8 +454,8 @@ namespace BibleToPPT
             float slideHeight = pptPresentation.PageSetup.SlideHeight;
 
             //pptPresentation.PageSetup.SlideWidth = (slideHeight * (4 / 3));
-            pptPresentation.PageSetup.SlideWidth = 1024;
-            pptPresentation.PageSetup.SlideHeight = 768;
+            pptPresentation.PageSetup.SlideWidth = 1920;
+            pptPresentation.PageSetup.SlideHeight = 1080;
 
             /*CustomLayout customLayouts = pptPresentation.SlideMaster.CustomLayouts[7];
 
@@ -505,15 +505,38 @@ namespace BibleToPPT
                     objText.Font.Name = "Arial";
                     objText.Font.Bold = MsoTriState.msoCTrue;
                     objText.ParagraphFormat.Alignment = PpParagraphAlignment.ppAlignCenter;
-                    objText.Font.Size = 52;
+                    objText.Font.Size = 88;
 
-                    //서브 텍스트
+                    /*//서브 텍스트
                     objText = slide.Shapes[2].TextFrame.TextRange;
                     objText.Text = tempdata[i].ToString();
                     objText.Font.Color.RGB = Color.White.ToArgb();
                     objText.Font.Bold = MsoTriState.msoCTrue;
                     objText.ParagraphFormat.Alignment = PpParagraphAlignment.ppAlignCenter;
-                    objText.Font.Size = 60;
+                    objText.Font.Size = 80;*/
+
+
+                    var shape = slide.Shapes.AddTextbox(
+                        Orientation: MsoTextOrientation.msoTextOrientationHorizontal,
+                        Left: 50, // 원하는 가로 위치
+                        Top: 330,  // 원하는 세로 위치
+                        Width: 1800, // 텍스트 상자의 너비
+                        Height: 200 // 텍스트 상자의 높이
+                    );
+
+                    objText = shape.TextFrame.TextRange;
+
+                    // 텍스트 내용 설정
+                    objText.Text = tempdata[i].ToString();
+
+                    // 글꼴 속성 설정
+                    objText.Font.Color.RGB = Color.White.ToArgb();
+                    objText.Font.Bold = MsoTriState.msoCTrue;
+                    objText.Font.Size = 78;
+
+                    // 가로 정렬 설정
+                    objText.ParagraphFormat.Alignment = PpParagraphAlignment.ppAlignCenter;
+
 
                     //slide.NotesPage.Shapes[2].TextFrame.TextRange.Text = "자동으로 PPT 생성"; //슬라이드 노트
                 }
